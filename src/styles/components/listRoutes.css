@@ -1,0 +1,47 @@
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title {
+  margin-left: 20px;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+}
+.add-button {
+  margin-right: 20px !important;
+  height: 25px;
+  background-color: #0065ff !important;
+  color: white !important;
+  text-transform: capitalize !important;
+}
+.routesContainer {
+  display: flex;
+  align-content: center;
+  position: relative;
+}
+.routeName {
+  margin-left: 20px;
+  color: white;
+}
+.editButton {
+  position: absolute;
+  right: 15%;
+  cursor: pointer;
+  color: white !important;
+}
+.deleteButton {
+  position: absolute;
+  right: 5%;
+  cursor: pointer;
+  color: white !important;
+}
+.createButton {
+  background-color: #0065ff !important;
+  color: white !important;
+  width: 90%;
+  margin-left: 20px !important;
+  margin-top: 20px !important;
+  text-transform: capitalize !important;
+}

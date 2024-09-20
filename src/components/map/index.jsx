@@ -31,7 +31,11 @@ function Map() {
     const routingControl = L.Routing.control({
       position: "topleft",
       display: "none",
-      waypoints: [L.latLng(wp1.lat, wp1.lng), L.latLng(wp2.lat, wp2.lng)],
+      waypoints: [
+        L.latLng(wp1.lat, wp1.lng),
+        L.latLng(39.4381311, -3.8196196),
+        L.latLng(wp2.lat, wp2.lng),
+      ],
       draggableWaypoints: true,
       createMarker: function (i, waypoint, n) {
         return L.marker(waypoint.latLng, {
