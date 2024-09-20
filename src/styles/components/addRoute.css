@@ -1,0 +1,79 @@
+.titleContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.iconButton {
+  margin-top: 5px !important;
+  color: white !important;
+}
+.title {
+  margin-left: 4px;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+}
+.wayPointsContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  .MuiInputBase-input {
+    height: 0px;
+    background-color: #d9d9d9;
+    border-radius: 4px;
+  }
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #d9d9d9;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #d9d9d9;
+  }
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #d9d9d9;
+  }
+}
+.step {
+  margin-left: 5%;
+  color: white;
+  font-size: 14px;
+}
+.latitude {
+  margin-left: 15%;
+  color: white;
+  font-size: 14px;
+}
+.longitude {
+  margin-left: 11%;
+  color: white;
+  font-size: 14px;
+}
+.routeName {
+  margin-left: 5% !important;
+  .MuiInputBase-input {
+    width: 120px;
+  }
+}
+.inputText {
+  margin-left: 15% !important;
+  .MuiInputBase-input {
+    width: 60px;
+  }
+}
+.inputTextLon {
+  margin-left: 2% !important;
+  .MuiInputBase-input {
+    width: 60px;
+  }
+}
+.deleteButton {
+  color: white !important;
+  margin-left: 5% !important;
+}
+.addButton {
+  margin-top: 10px !important;
+  margin-left: 10% !important;
+  background-color: #0065ff !important;
+  color: white !important;
+  width: 80%;
+  text-transform: capitalize !important;
+}
