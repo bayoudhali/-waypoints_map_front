@@ -1,5 +1,5 @@
-export interface IWaypointsList {
-  id: number;
+export interface IWaypoints {
+  id: string;
   name: string;
   waypoints: {
     lat: number;

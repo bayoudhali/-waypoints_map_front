@@ -2,7 +2,7 @@ import { action, makeAutoObservable, observable } from "mobx";
 import { KeyPoints } from "../types/routes.type";
 import {
   IRoutesPoints,
-  IWaypointsList,
+  IWaypoints,
 } from "../interfaces/pages/routes.interface";
 import routeService from "../services/routes.service";
 
@@ -28,7 +28,7 @@ class RoutesStore {
     },
   ];
 
-  @observable routesWayPoints: IWaypointsList[] = [];
+  @observable routesWayPoints: IWaypoints[] = [];
 
   @observable routeWayPoints = {
     id: 1,
@@ -56,7 +56,7 @@ class RoutesStore {
   // Action to get the list of admins
   @action async getListOfRoutes() {
     try {
-      const response: IWaypointsList[] = await routeService.getListRoutes();
+      const response: IWaypoints[] = await routeService.getListRoutes();
       this.routesWayPoints = response;
       return response;
     } catch (err) {
@@ -64,9 +64,9 @@ class RoutesStore {
     }
   }
   // Action to create Route.
-  @action async createRouteStore(object: any) {
+  @action async createRouteStore(route: IWaypoints) {
     try {
-      this.routesWayPoints.push(object);
+      await routeService.createRoute(route);
     } catch (err) {}
   }
 

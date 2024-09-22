@@ -11,6 +11,7 @@ import { ChevronLeft, Delete, Add, ErrorOutline } from "@mui/icons-material";
 import { useGlobalContext } from "../../context/useGlobalContext";
 import { Controller, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
+import { IWaypoints } from "../../interfaces/pages/routes.interface";
 
 const AddRoute = observer(() => {
   const { routesStore } = useGlobalContext();
@@ -29,7 +30,7 @@ const AddRoute = observer(() => {
     }
 
     try {
-      let routeObjet = {
+      let routeObjet: IWaypoints = {
         id: uuidv4(),
         name: payload.routeName,
         waypoints: routesStore.routesPoints,
@@ -38,10 +39,6 @@ const AddRoute = observer(() => {
       setMsgExist(false);
       routesStore.setSwitchLayout(0);
       routesStore.resetSotre();
-      console.log(
-        "routesStore.routesWayPoints ====>",
-        routesStore.routesWayPoints
-      );
     } catch (error) {}
   };
 
