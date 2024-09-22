@@ -17,7 +17,7 @@ const ListRoutes = observer(() => {
           Add
         </Button>
       </div>
-      {routesStore.routesWayPoints.map((route) => (
+      {routesStore.routesWayPoints.map((route, index) => (
         <div key={route.id} className="routesContainer">
           <div className="routeNameList">{route.name}</div>
 
@@ -26,7 +26,7 @@ const ListRoutes = observer(() => {
             className="editButton"
           />
           <DeleteIcon
-            // onClick={() => deleteRoute(route.id)}
+            onClick={() => routesStore.removeRoute(index)}
             className="deleteButton"
           />
         </div>

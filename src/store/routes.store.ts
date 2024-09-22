@@ -99,6 +99,12 @@ class RoutesStore {
       this.routesPoints.splice(index, 1);
     }
   }
+  // Remove a waypoint by index
+  removeRoute(index: number) {
+    if (index >= 0 && index < this.routesWayPoints.length) {
+      this.routesWayPoints.splice(index, 1);
+    }
+  }
 
   @action resetSotre() {
     this.routesPoints = [
