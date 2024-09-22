@@ -12,9 +12,9 @@ import { useGlobalContext } from "../../context/useGlobalContext";
 import { Controller, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
-const AddRoute = observer(() => {
+const EditRoute = observer(() => {
   const { routesStore } = useGlobalContext();
-  const [routeName, setRouteName] = useState("");
+  const [routeName, setRouteName] = useState(routesStore.routeWayPoints.name);
   const [errorMsgExist, setMsgExist] = useState(false);
   const {
     control,
@@ -62,6 +62,7 @@ const AddRoute = observer(() => {
           <Controller
             control={control}
             name={"routeName"}
+            defaultValue={routesStore.routeWayPoints.name}
             rules={{
               required: {
                 value: true,
@@ -96,69 +97,71 @@ const AddRoute = observer(() => {
         <h4 className="longitude">Longitude</h4>
       </div>
 
-      {routesStore.routesPoints.length !== 0 &&
-        routesStore.routesPoints.map((route: any, index: number) => (
-          <div className="wayPointsContainer">
-            <h4 className="step">WP{`${index + 1}`}</h4>
-            <Controller
-              control={control}
-              name={`lat-${index + 1}`}
-              defaultValue={route.lat}
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  className="inputText"
-                  variant="outlined"
-                  value={value}
-                  onChange={(event) => {
-                    onChange(event);
-                    routesStore.setChangeIndex(index);
-                    routesStore.setChangeWayPoint(
-                      index,
-                      "lat",
-                      parseFloat(event.target.value)
-                    );
-                  }}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name={`lng-${index + 1}`}
-              defaultValue={route.lng}
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  className="inputTextLon"
-                  variant="outlined"
-                  value={value}
-                  onChange={(event) => {
-                    onChange(event);
-                    routesStore.setChangeIndex(index + 1);
-                    routesStore.setChangeWayPoint(
-                      index,
-                      "lng",
-                      parseFloat(event.target.value)
-                    );
-                  }}
-                />
-              )}
-            />
-            <IconButton
-              className="deleteButton"
-              onClick={() => {
-                routesStore.setChangeIndex(index);
-                routesStore.removeWayPoint(index);
-              }}
-            >
-              <Delete />
-            </IconButton>
-          </div>
-        ))}
+      {routesStore.routeWayPoints.waypoints.length !== 0 &&
+        routesStore.routeWayPoints.waypoints.map(
+          (route: any, index: number) => (
+            <div className="wayPointsContainer">
+              <h4 className="step">WP{`${index + 1}`}</h4>
+              <Controller
+                control={control}
+                name={`lat-${index + 1}`}
+                defaultValue={route.lat}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    className="inputText"
+                    variant="outlined"
+                    value={value}
+                    onChange={(event) => {
+                      onChange(event);
+                      routesStore.setChangeIndex(index);
+                      routesStore.setChangeWayPoint(
+                        index,
+                        "lat",
+                        parseFloat(event.target.value)
+                      );
+                    }}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={`lng-${index + 1}`}
+                defaultValue={route.lng}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    className="inputTextLon"
+                    variant="outlined"
+                    value={value}
+                    onChange={(event) => {
+                      onChange(event);
+                      routesStore.setChangeIndex(index + 1);
+                      routesStore.setChangeWayPoint(
+                        index,
+                        "lng",
+                        parseFloat(event.target.value)
+                      );
+                    }}
+                  />
+                )}
+              />
+              <IconButton
+                className="deleteButton"
+                onClick={() => {
+                  routesStore.setChangeIndex(index);
+                  routesStore.removeWayPoint(index);
+                }}
+              >
+                <Delete />
+              </IconButton>
+            </div>
+          )
+        )}
 
       {errorMsgExist && (
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -173,10 +176,10 @@ const AddRoute = observer(() => {
         className="addButton"
         startIcon={<Add />}
       >
-        Add New Route
+        Edit Route
       </Button>
     </>
   );
 });
 
-export default AddRoute;
+export default EditRoute;

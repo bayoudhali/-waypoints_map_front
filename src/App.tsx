@@ -7,6 +7,7 @@ import AddRoute from "./components/Routes/addRoute";
 import { CSSTransition } from "react-transition-group";
 import { observer } from "mobx-react";
 import { useGlobalContext } from "./context/useGlobalContext";
+import EditRoute from "./components/Routes/editRoute";
 
 const App = observer(() => {
   const { routesStore } = useGlobalContext();
@@ -22,7 +23,7 @@ const App = observer(() => {
       <div style={{ width: "25%", backgroundColor: "#152534" }}>
         <div className="App">
           <CSSTransition
-            in={!routesStore.switchLayout}
+            in={routesStore.switchLayout === 0 ? true : false}
             timeout={0}
             classNames="fade"
             unmountOnExit
@@ -31,12 +32,20 @@ const App = observer(() => {
           </CSSTransition>
 
           <CSSTransition
-            in={routesStore.switchLayout}
+            in={routesStore.switchLayout === 1 ? true : false}
             timeout={0}
             classNames="fade"
             unmountOnExit
           >
             <AddRoute />
+          </CSSTransition>
+          <CSSTransition
+            in={routesStore.switchLayout === 2 ? true : false}
+            timeout={0}
+            classNames="fade"
+            unmountOnExit
+          >
+            <EditRoute />
           </CSSTransition>
         </div>
       </div>

@@ -22,7 +22,7 @@ const ListRoutes = observer(() => {
           <div className="routeNameList">{route.name}</div>
 
           <EditIcon
-            //   onClick={() => editRoute(route.id)}
+            onClick={() => routesStore.setSwitchLayout(2)}
             className="editButton"
           />
           <DeleteIcon
@@ -34,7 +34,7 @@ const ListRoutes = observer(() => {
       <Button
         variant="contained"
         className="createButton"
-        onClick={() => routesStore.setSwitchLayout(true)}
+        onClick={() => routesStore.setSwitchLayout(1)}
       >
         + Add New Route
       </Button>

@@ -6,7 +6,7 @@ import {
 } from "../interfaces/pages/routes.interface";
 
 class RoutesStore {
-  @observable switchLayout: boolean = false;
+  @observable switchLayout: number = 0;
   @observable index = -1;
 
   @observable routesPoints: IRoutesPoints[] = [
@@ -72,11 +72,26 @@ class RoutesStore {
     },
   ];
 
+  @observable routeWayPoints = {
+    id: 1,
+    name: "My First Route",
+    waypoints: [
+      {
+        lat: 40.4381311,
+        lng: -3.8196196,
+      },
+      {
+        lat: 42.7576862,
+        lng: 1.5082874,
+      },
+    ],
+  };
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  setSwitchLayout(value: boolean) {
+  setSwitchLayout(value: number) {
     this.switchLayout = value;
   }
   // Action to create Route.
