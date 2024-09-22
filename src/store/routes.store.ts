@@ -4,6 +4,7 @@ import {
   IRoutesPoints,
   IWaypointsList,
 } from "../interfaces/pages/routes.interface";
+import routeService from "../services/routes.service";
 
 class RoutesStore {
   @observable switchLayout: number = 0;
@@ -27,50 +28,7 @@ class RoutesStore {
     },
   ];
 
-  @observable routesWayPoints: IWaypointsList[] = [
-    {
-      id: 1,
-      name: "My First Route",
-      waypoints: [
-        {
-          lat: 0,
-          lng: 0,
-        },
-        {
-          lat: 0,
-          lng: 0,
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Brest - St-Nazaire",
-      waypoints: [
-        {
-          lat: 0,
-          lng: 0,
-        },
-        {
-          lat: 0,
-          lng: 0,
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: "Le Havre - Rotterdam",
-      waypoints: [
-        {
-          lat: 0,
-          lng: 0,
-        },
-        {
-          lat: 0,
-          lng: 0,
-        },
-      ],
-    },
-  ];
+  @observable routesWayPoints: IWaypointsList[] = [];
 
   @observable routeWayPoints = {
     id: 1,
@@ -93,6 +51,17 @@ class RoutesStore {
 
   setSwitchLayout(value: number) {
     this.switchLayout = value;
+  }
+
+  // Action to get the list of admins
+  @action async getListOfRoutes() {
+    try {
+      const response: IWaypointsList[] = await routeService.getListRoutes();
+      this.routesWayPoints = response;
+      return response;
+    } catch (err) {
+      throw err;
+    }
   }
   // Action to create Route.
   @action async createRouteStore(object: any) {

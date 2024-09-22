@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IListRoutes } from "../../interfaces/components/routes.interface";
 import "../../styles/components/listRoutes.css";
 import { Button } from "@material-ui/core";
@@ -9,6 +9,11 @@ import { observer } from "mobx-react";
 
 const ListRoutes = observer(() => {
   const { routesStore } = useGlobalContext();
+  useEffect(() => {
+    routesStore.getListOfRoutes();
+    // console.log("routesStore",routesStore.);
+  }, []);
+
   return (
     <>
       <div className="titleContainerList">
