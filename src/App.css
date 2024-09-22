@@ -33,3 +33,15 @@
   transform: translateX(100%);
   transition: transform 300ms ease-in-out;
 }
+
+.error-input {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 10px;
+  width: inherit;
+  svg {
+    font-size: 14px;
+    margin-right: 5px;
+  }
+}

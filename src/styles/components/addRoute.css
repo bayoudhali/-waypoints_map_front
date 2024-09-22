@@ -2,13 +2,14 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  height: 30px;
 }
 .iconButton {
   margin-top: 5px !important;
   color: white !important;
 }
 .title {
-  margin-left: 4px;
+  margin-left: 20px;
   color: white;
   font-weight: 700;
   font-size: 18px;
@@ -32,6 +33,12 @@
     border-color: #d9d9d9;
   }
 }
+.routeNameContainer {
+  height: 30px;
+  margin-bottom: 30px;
+  margin-top: 25px;
+}
+
 .step {
   margin-left: 5%;
   color: white;
@@ -50,7 +57,7 @@
 .routeName {
   margin-left: 5% !important;
   .MuiInputBase-input {
-    width: 120px;
+    width: 150px;
   }
 }
 .inputText {

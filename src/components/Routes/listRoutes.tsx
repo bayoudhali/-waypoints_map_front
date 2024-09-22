@@ -4,20 +4,22 @@ import "../../styles/components/listRoutes.css";
 import { Button } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useGlobalContext } from "../../context/useGlobalContext";
+import { observer } from "mobx-react";
 
-function ListRoutes(props: IListRoutes) {
-  const { routes } = props;
+const ListRoutes = observer(() => {
+  const { routesStore } = useGlobalContext();
   return (
     <>
-      <div className="titleContainer">
+      <div className="titleContainerList">
         <h4 className="title">Routes</h4>
         <Button variant="contained" className="add-button">
           Add
         </Button>
       </div>
-      {routes.map((route) => (
+      {routesStore.routesWayPoints.map((route) => (
         <div key={route.id} className="routesContainer">
-          <div className="routeName ">{route.name}</div>
+          <div className="routeNameList">{route.name}</div>
 
           <EditIcon
             //   onClick={() => editRoute(route.id)}
@@ -29,11 +31,15 @@ function ListRoutes(props: IListRoutes) {
           />
         </div>
       ))}
-      <Button variant="contained" className="createButton">
+      <Button
+        variant="contained"
+        className="createButton"
+        onClick={() => routesStore.setSwitchLayout(true)}
+      >
         + Add New Route
       </Button>
     </>
   );
-}
+});
 
 export default ListRoutes;

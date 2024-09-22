@@ -1,4 +1,4 @@
-.titleContainer {
+.titleContainerList {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,8 +21,9 @@
   align-content: center;
   position: relative;
 }
-.routeName {
+.routeNameList {
   margin-left: 20px;
+  margin-top: 10px;
   color: white;
 }
 .editButton {

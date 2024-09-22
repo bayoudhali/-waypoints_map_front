@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TileLayer, MapContainer, LayersControl } from "react-leaflet";
 import L from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
@@ -6,17 +6,26 @@ import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import { observer } from "mobx-react";
+import { useGlobalContext } from "../../context/useGlobalContext";
 
-function Map() {
-  const [wp1, setWpl] = useState({
-    lat: 40.4381311,
-    lng: -3.8196196,
-  });
+const Map = observer(() => {
+  const { routesStore } = useGlobalContext();
+  const [routes, setRoutes] = useState([]);
 
-  const [wp2, setWp2] = useState({
-    lat: 42.7576862,
-    lng: 1.5082874,
-  });
+  useEffect(() => {
+    if (routesStore.index !== -1) {
+      const updatedRoutes = routesStore.routesPoints.map((route, index) => {
+        return L.latLng(route.lat || 0, route.lng || 0);
+      });
+
+      setRoutes(updatedRoutes);
+    }
+  }, [routesStore.index, routesStore.routesPoints]);
+
+  useEffect(() => {
+    console.log("routes ===>", routes);
+  }, [routes]);
 
   const DefaultIcon = L.icon({
     iconUrl: markerIcon,
@@ -31,11 +40,7 @@ function Map() {
     const routingControl = L.Routing.control({
       position: "topleft",
       display: "none",
-      waypoints: [
-        L.latLng(wp1.lat, wp1.lng),
-        L.latLng(39.4381311, -3.8196196),
-        L.latLng(wp2.lat, wp2.lng),
-      ],
+      waypoints: routes,
       draggableWaypoints: true,
       createMarker: function (i, waypoint, n) {
         return L.marker(waypoint.latLng, {
@@ -70,6 +75,6 @@ function Map() {
       </LayersControl>
     </MapContainer>
   );
-}
+});
 
 export default Map;

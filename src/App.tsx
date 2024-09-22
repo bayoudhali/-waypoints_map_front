@@ -5,18 +5,15 @@ import ListRoutes from "./components/Routes/listRoutes";
 import { useState } from "react";
 import AddRoute from "./components/Routes/addRoute";
 import { CSSTransition } from "react-transition-group";
+import { observer } from "mobx-react";
+import { useGlobalContext } from "./context/useGlobalContext";
 
-function App() {
-  const [showFirst, setShowFirst] = useState(true);
+const App = observer(() => {
+  const { routesStore } = useGlobalContext();
+  // const toggleComponent = () => {
+  //   setShowFirst(!showFirst);
+  // };
 
-  const toggleComponent = () => {
-    setShowFirst(!showFirst);
-  };
-  const [routes, setRoutes] = useState([
-    { id: 1, name: "My First Route" },
-    { id: 2, name: "Brest - St-Nazaire" },
-    { id: 3, name: "Le Havre - Rotterdam" },
-  ]);
   return (
     <div style={{ display: "flex", width: "100%" }}>
       <div style={{ width: "75%" }}>
@@ -24,20 +21,18 @@ function App() {
       </div>
       <div style={{ width: "25%", backgroundColor: "#152534" }}>
         <div className="App">
-          <button onClick={toggleComponent}>Toggle Components</button>
-
           <CSSTransition
-            in={!showFirst}
-            timeout={300}
+            in={!routesStore.switchLayout}
+            timeout={0}
             classNames="fade"
             unmountOnExit
           >
-            <ListRoutes routes={routes} />
+            <ListRoutes />
           </CSSTransition>
 
           <CSSTransition
-            in={showFirst}
-            timeout={300}
+            in={routesStore.switchLayout}
+            timeout={0}
             classNames="fade"
             unmountOnExit
           >
@@ -47,6 +42,6 @@ function App() {
       </div>
     </div>
   );
-}
+});
 
 export default App;
