@@ -9,6 +9,7 @@ import routeService from "../services/routes.service";
 class RoutesStore {
   @observable switchLayout: number = 0;
   @observable index = -1;
+  @observable routes = [];
 
   @observable routesPoints: IRoutesPoints[] = [
     {
@@ -30,30 +31,24 @@ class RoutesStore {
 
   @observable routesWayPoints: IWaypoints[] = [];
 
-  @observable routeWayPoints = {
-    id: 1,
-    name: "My First Route",
-    waypoints: [
-      {
-        lat: 40.4381311,
-        lng: -3.8196196,
-      },
-      {
-        lat: 42.7576862,
-        lng: 1.5082874,
-      },
-    ],
+  @observable routeWayPoints: IWaypoints = {
+    id: "",
+    name: "",
+    waypoints: [],
   };
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setSwitchLayout(value: number) {
+  @action setRoutes(value: []) {
+    this.routes = value;
+  }
+  @action setSwitchLayout(value: number) {
     this.switchLayout = value;
   }
 
-  // Action to get the list of admins
+  // Action to get the list of routes
   @action async getListOfRoutes() {
     try {
       const response: IWaypoints[] = await routeService.getListRoutes();
@@ -63,10 +58,26 @@ class RoutesStore {
       throw err;
     }
   }
+  // Action to get route by id
+  @action async getRouteById(id: string) {
+    try {
+      const response: IWaypoints = await routeService.getRouteById(id);
+      this.routeWayPoints = response;
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  }
   // Action to create Route.
   @action async createRouteStore(route: IWaypoints) {
     try {
       await routeService.createRoute(route);
+    } catch (err) {}
+  }
+  // Action to update Route.
+  @action async updateRouteStore(id: string, route: IWaypoints) {
+    try {
+      await routeService.updateRoute(id, route);
     } catch (err) {}
   }
 
@@ -108,6 +119,7 @@ class RoutesStore {
         lng: 0,
       },
     ];
+    this.routes = [];
   }
 }
 const routesStore = new RoutesStore();

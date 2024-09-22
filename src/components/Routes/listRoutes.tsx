@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { IListRoutes } from "../../interfaces/components/routes.interface";
 import "../../styles/components/listRoutes.css";
 import { Button } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
@@ -11,8 +10,12 @@ const ListRoutes = observer(() => {
   const { routesStore } = useGlobalContext();
   useEffect(() => {
     routesStore.getListOfRoutes();
-    // console.log("routesStore",routesStore.);
   }, []);
+
+  const handleEdit = (id: string) => {
+    routesStore.setSwitchLayout(2);
+    routesStore.getRouteById(id);
+  };
 
   return (
     <>
@@ -27,7 +30,7 @@ const ListRoutes = observer(() => {
           <div className="routeNameList">{route.name}</div>
 
           <EditIcon
-            onClick={() => routesStore.setSwitchLayout(2)}
+            onClick={() => handleEdit(route.id)}
             className="editButton"
           />
           <DeleteIcon

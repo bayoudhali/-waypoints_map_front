@@ -11,7 +11,6 @@ import { useGlobalContext } from "../../context/useGlobalContext";
 
 const Map = observer(() => {
   const { routesStore } = useGlobalContext();
-  const [routes, setRoutes] = useState([]);
 
   useEffect(() => {
     if (routesStore.index !== -1) {
@@ -19,13 +18,9 @@ const Map = observer(() => {
         return L.latLng(route.lat || 0, route.lng || 0);
       });
 
-      setRoutes(updatedRoutes);
+      routesStore.setRoutes(updatedRoutes);
     }
   }, [routesStore.index, routesStore.routesPoints]);
-
-  useEffect(() => {
-    console.log("routes ===>", routes);
-  }, [routes]);
 
   const DefaultIcon = L.icon({
     iconUrl: markerIcon,
@@ -40,7 +35,7 @@ const Map = observer(() => {
     const routingControl = L.Routing.control({
       position: "topleft",
       display: "none",
-      waypoints: routes,
+      waypoints: routesStore.routes,
       draggableWaypoints: true,
       createMarker: function (i, waypoint, n) {
         return L.marker(waypoint.latLng, {

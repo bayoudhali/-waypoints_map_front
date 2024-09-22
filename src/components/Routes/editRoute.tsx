@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
+import L from "leaflet";
 import "../../styles/components/addRoute.css";
 import {
   Button,
@@ -22,7 +23,14 @@ const EditRoute = observer(() => {
     formState: { errors },
   } = useForm<any>();
 
-  const createRoute = async (payload: any) => {
+  useEffect(() => {
+    const updatedRoutes: any = routesStore.routesPoints.map((route, index) => {
+      return L.latLng(route.lat || 0, route.lng || 0);
+    });
+    routesStore.setRoutes(updatedRoutes);
+  }, []);
+
+  const updateRoute = async (payload: any) => {
     if (routesStore.routesPoints.length < 2) {
       setMsgExist(true);
       return;
@@ -34,14 +42,13 @@ const EditRoute = observer(() => {
         name: payload.routeName,
         waypoints: routesStore.routesPoints,
       };
-      await routesStore.createRouteStore(routeObjet);
+      await routesStore.updateRouteStore(
+        routesStore.routeWayPoints.id,
+        routeObjet
+      );
       setMsgExist(false);
       routesStore.setSwitchLayout(0);
       routesStore.resetSotre();
-      console.log(
-        "routesStore.routesWayPoints ====>",
-        routesStore.routesWayPoints
-      );
     } catch (error) {}
   };
 
@@ -54,7 +61,9 @@ const EditRoute = observer(() => {
         >
           <ChevronLeft />
         </IconButton>
-        <h4 className="title">{routeName}</h4>
+        <h4 className="title">
+          {routeName || routesStore.routeWayPoints.name}
+        </h4>
       </div>
       <div className="wayPointsContainer">
         <h4 className="step">Route Name</h4>
@@ -74,7 +83,7 @@ const EditRoute = observer(() => {
                 placeholder="Entre Route Name"
                 className="routeName"
                 variant="outlined"
-                value={value}
+                value={value || routesStore.routeWayPoints.name}
                 onChange={(event) => {
                   onChange(event);
                   setRouteName(event.target.value);
@@ -97,7 +106,7 @@ const EditRoute = observer(() => {
         <h4 className="longitude">Longitude</h4>
       </div>
 
-      {routesStore.routeWayPoints.waypoints.length !== 0 &&
+      {routesStore.routeWayPoints &&
         routesStore.routeWayPoints.waypoints.map(
           (route: any, index: number) => (
             <div className="wayPointsContainer">
@@ -172,7 +181,7 @@ const EditRoute = observer(() => {
       )}
       <Button
         variant="contained"
-        onClick={handleSubmit(createRoute)}
+        onClick={handleSubmit(updateRoute)}
         className="addButton"
         startIcon={<Add />}
       >
