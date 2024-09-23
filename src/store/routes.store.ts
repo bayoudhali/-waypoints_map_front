@@ -1,4 +1,5 @@
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, makeAutoObservable, observable, runInAction } from "mobx";
+import { v4 as uuidv4 } from "uuid";
 import { KeyPoints } from "../types/routes.type";
 import {
   IRoutesPoints,
@@ -8,8 +9,8 @@ import routeService from "../services/routes.service";
 
 class RoutesStore {
   @observable switchLayout: number = 0;
-  @observable index = -1;
-  @observable routes = [];
+  @observable index: string = "-1";
+  @observable routingControlRef: any = null;
 
   @observable routesPoints: IRoutesPoints[] = [
     {
@@ -41,9 +42,6 @@ class RoutesStore {
     makeAutoObservable(this);
   }
 
-  @action setRoutes(value: []) {
-    this.routes = value;
-  }
   @action setSwitchLayout(value: number) {
     this.switchLayout = value;
   }
@@ -63,6 +61,15 @@ class RoutesStore {
     try {
       const response: IWaypoints = await routeService.getRouteById(id);
       this.routeWayPoints = response;
+      const routesWithIndex: IRoutesPoints[] = response.waypoints.map(
+        (point, index) => ({
+          index: index,
+          lat: point.lat,
+          lng: point.lng,
+        })
+      );
+      this.routesPoints = routesWithIndex;
+      this.setChangeIndex("100");
       return response;
     } catch (err) {
       throw err;
@@ -72,12 +79,16 @@ class RoutesStore {
   @action async createRouteStore(route: IWaypoints) {
     try {
       await routeService.createRoute(route);
+      this.removeWaypointsMap();
+      this.resetStore();
     } catch (err) {}
   }
   // Action to update Route.
   @action async updateRouteStore(id: string, route: IWaypoints) {
     try {
       await routeService.updateRoute(id, route);
+      this.removeWaypointsMap();
+      this.resetStore();
     } catch (err) {}
   }
 
@@ -90,8 +101,10 @@ class RoutesStore {
 
   setChangeWayPoint(index: number, key: KeyPoints, value: number) {
     this.routesPoints[index][key] = value;
+    this.routeWayPoints.waypoints = [];
+    this.routeWayPoints.waypoints = this.routesPoints;
   }
-  setChangeIndex(index: number) {
+  setChangeIndex(index: string) {
     this.index = index;
   }
 
@@ -102,25 +115,42 @@ class RoutesStore {
     }
   }
 
-  @action resetSotre() {
-    this.routesPoints = [
-      {
-        index: 0,
-        lat: 0,
-        lng: 0,
-      },
-      {
-        index: 1,
-        lat: 0,
-        lng: 0,
-      },
-      {
-        index: 2,
-        lat: 0,
-        lng: 0,
-      },
-    ];
-    this.routes = [];
+  setRoutingControlRef(value: any) {
+    this.routingControlRef = value;
+  }
+  @action removeWaypointsMap() {
+    const routingControl = this.routingControlRef.current;
+    if (routingControl) {
+      routingControl.setWaypoints([]);
+    }
+  }
+  @action resetStore() {
+    runInAction(() => {
+      this.routesPoints = [
+        {
+          index: 0,
+          lat: 0,
+          lng: 0,
+        },
+        {
+          index: 1,
+          lat: 0,
+          lng: 0,
+        },
+        {
+          index: 2,
+          lat: 0,
+          lng: 0,
+        },
+      ];
+
+      this.routeWayPoints = {
+        id: "",
+        name: "",
+        waypoints: [],
+      };
+      this.routesWayPoints = [];
+    });
   }
 }
 const routesStore = new RoutesStore();

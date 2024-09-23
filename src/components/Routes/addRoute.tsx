@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import "../../styles/components/addRoute.css";
 import {
@@ -38,7 +38,6 @@ const AddRoute = observer(() => {
       await routesStore.createRouteStore(routeObjet);
       setMsgExist(false);
       routesStore.setSwitchLayout(0);
-      routesStore.resetSotre();
     } catch (error) {}
   };
 
@@ -47,7 +46,10 @@ const AddRoute = observer(() => {
       <div className="titleContainer">
         <IconButton
           className="iconButton"
-          onClick={() => routesStore.setSwitchLayout(0)}
+          onClick={() => {
+            routesStore.setSwitchLayout(0);
+            routesStore.resetStore();
+          }}
         >
           <ChevronLeft />
         </IconButton>
@@ -111,12 +113,13 @@ const AddRoute = observer(() => {
                   value={value}
                   onChange={(event) => {
                     onChange(event);
-                    routesStore.setChangeIndex(index);
+                    routesStore.setChangeIndex(uuidv4());
                     routesStore.setChangeWayPoint(
                       index,
                       "lat",
                       parseFloat(event.target.value)
                     );
+                    routesStore.setChangeIndex(uuidv4());
                   }}
                 />
               )}
@@ -135,12 +138,13 @@ const AddRoute = observer(() => {
                   value={value}
                   onChange={(event) => {
                     onChange(event);
-                    routesStore.setChangeIndex(index + 1);
+                    routesStore.setChangeIndex(uuidv4());
                     routesStore.setChangeWayPoint(
                       index,
                       "lng",
                       parseFloat(event.target.value)
                     );
+                    routesStore.setChangeIndex(uuidv4());
                   }}
                 />
               )}
@@ -148,7 +152,7 @@ const AddRoute = observer(() => {
             <IconButton
               className="deleteButton"
               onClick={() => {
-                routesStore.setChangeIndex(index);
+                routesStore.setChangeIndex(uuidv4());
                 routesStore.removeWayPoint(index);
               }}
             >

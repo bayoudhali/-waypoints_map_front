@@ -13,6 +13,7 @@ const ListRoutes = observer(() => {
   }, []);
 
   const handleEdit = (id: string) => {
+    routesStore.removeWaypointsMap();
     routesStore.setSwitchLayout(2);
     routesStore.getRouteById(id);
   };

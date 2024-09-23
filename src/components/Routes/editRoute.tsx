@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
-import L from "leaflet";
 import "../../styles/components/addRoute.css";
 import {
   Button,
@@ -20,15 +19,15 @@ const EditRoute = observer(() => {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<any>();
 
   useEffect(() => {
-    const updatedRoutes: any = routesStore.routesPoints.map((route, index) => {
-      return L.latLng(route.lat || 0, route.lng || 0);
-    });
-    routesStore.setRoutes(updatedRoutes);
-  }, []);
+    if (routesStore.routeWayPoints.name) {
+      setValue("routeName", routesStore.routeWayPoints.name);
+    }
+  }, [routesStore.routeWayPoints.name, setValue]);
 
   const updateRoute = async (payload: any) => {
     if (routesStore.routesPoints.length < 2) {
@@ -48,7 +47,6 @@ const EditRoute = observer(() => {
       );
       setMsgExist(false);
       routesStore.setSwitchLayout(0);
-      routesStore.resetSotre();
     } catch (error) {}
   };
 
@@ -57,7 +55,11 @@ const EditRoute = observer(() => {
       <div className="titleContainer">
         <IconButton
           className="iconButton"
-          onClick={() => routesStore.setSwitchLayout(0)}
+          onClick={() => {
+            routesStore.removeWaypointsMap();
+            routesStore.resetStore();
+            routesStore.setSwitchLayout(0);
+          }}
         >
           <ChevronLeft />
         </IconButton>
@@ -71,7 +73,6 @@ const EditRoute = observer(() => {
           <Controller
             control={control}
             name={"routeName"}
-            defaultValue={routesStore.routeWayPoints.name}
             rules={{
               required: {
                 value: true,
@@ -83,7 +84,7 @@ const EditRoute = observer(() => {
                 placeholder="Entre Route Name"
                 className="routeName"
                 variant="outlined"
-                value={value || routesStore.routeWayPoints.name}
+                value={value}
                 onChange={(event) => {
                   onChange(event);
                   setRouteName(event.target.value);
@@ -114,7 +115,6 @@ const EditRoute = observer(() => {
               <Controller
                 control={control}
                 name={`lat-${index + 1}`}
-                defaultValue={route.lat}
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
@@ -122,15 +122,16 @@ const EditRoute = observer(() => {
                   <TextField
                     className="inputText"
                     variant="outlined"
-                    value={value}
+                    value={value || route.lat}
                     onChange={(event) => {
                       onChange(event);
-                      routesStore.setChangeIndex(index);
+                      routesStore.setChangeIndex(uuidv4());
                       routesStore.setChangeWayPoint(
                         index,
                         "lat",
                         parseFloat(event.target.value)
                       );
+                      routesStore.setChangeIndex(uuidv4());
                     }}
                   />
                 )}
@@ -138,7 +139,6 @@ const EditRoute = observer(() => {
               <Controller
                 control={control}
                 name={`lng-${index + 1}`}
-                defaultValue={route.lng}
                 render={({
                   field: { onChange, value },
                   fieldState: { error },
@@ -146,15 +146,16 @@ const EditRoute = observer(() => {
                   <TextField
                     className="inputTextLon"
                     variant="outlined"
-                    value={value}
+                    value={value || route.lng}
                     onChange={(event) => {
                       onChange(event);
-                      routesStore.setChangeIndex(index + 1);
+                      routesStore.setChangeIndex(uuidv4());
                       routesStore.setChangeWayPoint(
                         index,
                         "lng",
                         parseFloat(event.target.value)
                       );
+                      routesStore.setChangeIndex(uuidv4());
                     }}
                   />
                 )}
@@ -162,7 +163,7 @@ const EditRoute = observer(() => {
               <IconButton
                 className="deleteButton"
                 onClick={() => {
-                  routesStore.setChangeIndex(index);
+                  routesStore.setChangeIndex(uuidv4());
                   routesStore.removeWayPoint(index);
                 }}
               >
