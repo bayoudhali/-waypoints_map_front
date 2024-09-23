@@ -17,6 +17,13 @@ const ListRoutes = observer(() => {
     routesStore.getRouteById(id);
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await routesStore.removeRoute(id);
+      await routesStore.getListOfRoutes();
+    } catch (error) {}
+  };
+
   return (
     <>
       <div className="titleContainerList">
@@ -34,7 +41,7 @@ const ListRoutes = observer(() => {
             className="editButton"
           />
           <DeleteIcon
-            onClick={() => routesStore.removeRoute(index)}
+            onClick={() => handleDelete(route.id)}
             className="deleteButton"
           />
         </div>

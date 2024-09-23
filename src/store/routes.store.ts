@@ -81,6 +81,13 @@ class RoutesStore {
     } catch (err) {}
   }
 
+  // Action to Remove a route by id
+  @action async removeRoute(id: string) {
+    try {
+      await routeService.deleteRouteById(id);
+    } catch (err) {}
+  }
+
   setChangeWayPoint(index: number, key: KeyPoints, value: number) {
     this.routesPoints[index][key] = value;
   }
@@ -92,12 +99,6 @@ class RoutesStore {
   removeWayPoint(index: number) {
     if (index >= 0 && index < this.routesPoints.length) {
       this.routesPoints.splice(index, 1);
-    }
-  }
-  // Remove a waypoint by index
-  removeRoute(index: number) {
-    if (index >= 0 && index < this.routesWayPoints.length) {
-      this.routesWayPoints.splice(index, 1);
     }
   }
 
