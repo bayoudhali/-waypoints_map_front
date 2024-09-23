@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import "../../styles/components/addRoute.css";
 import {
@@ -16,6 +16,7 @@ const EditRoute = observer(() => {
   const { routesStore } = useGlobalContext();
   const [routeName, setRouteName] = useState(routesStore.routeWayPoints.name);
   const [errorMsgExist, setMsgExist] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -126,12 +127,17 @@ const EditRoute = observer(() => {
                     onChange={(event) => {
                       onChange(event);
                       routesStore.setChangeIndex(uuidv4());
-                      routesStore.setChangeWayPoint(
-                        index,
-                        "lat",
-                        parseFloat(event.target.value)
-                      );
-                      routesStore.setChangeIndex(uuidv4());
+                      routesStore.removeWaypointsMap();
+                      setTimeout(function () {
+                        routesStore.setChangeWayPoint(
+                          index,
+                          "lat",
+                          parseFloat(event.target.value)
+                        );
+                        routesStore.removeWaypointsMap();
+
+                        routesStore.setChangeIndex(uuidv4());
+                      }, 2000);
                     }}
                   />
                 )}
@@ -150,12 +156,17 @@ const EditRoute = observer(() => {
                     onChange={(event) => {
                       onChange(event);
                       routesStore.setChangeIndex(uuidv4());
-                      routesStore.setChangeWayPoint(
-                        index,
-                        "lng",
-                        parseFloat(event.target.value)
-                      );
-                      routesStore.setChangeIndex(uuidv4());
+                      routesStore.removeWaypointsMap();
+                      setTimeout(function () {
+                        routesStore.setChangeWayPoint(
+                          index,
+                          "lng",
+                          parseFloat(event.target.value)
+                        );
+                        routesStore.removeWaypointsMap();
+
+                        routesStore.setChangeIndex(uuidv4());
+                      }, 2000);
                     }}
                   />
                 )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import "../../styles/components/addRoute.css";
 import {
@@ -17,11 +17,25 @@ const AddRoute = observer(() => {
   const { routesStore } = useGlobalContext();
   const [routeName, setRouteName] = useState("");
   const [errorMsgExist, setMsgExist] = useState(false);
+  const debounceRef = useRef<any>(null);
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<any>();
+
+  const handleDebouncedInputChange = (event: any, callback: any) => {
+    const value = event.target.value;
+
+    if (debounceRef.current) {
+      routesStore.removeWaypointsMap();
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      callback(value);
+    }, 20);
+  };
 
   const createRoute = async (payload: any) => {
     if (routesStore.routesPoints.length < 2) {
@@ -47,6 +61,7 @@ const AddRoute = observer(() => {
         <IconButton
           className="iconButton"
           onClick={() => {
+            routesStore.removeWaypointsMap();
             routesStore.setSwitchLayout(0);
             routesStore.resetStore();
           }}
@@ -114,11 +129,13 @@ const AddRoute = observer(() => {
                   onChange={(event) => {
                     onChange(event);
                     routesStore.setChangeIndex(uuidv4());
-                    routesStore.setChangeWayPoint(
-                      index,
-                      "lat",
-                      parseFloat(event.target.value)
-                    );
+                    handleDebouncedInputChange(event, (val: any) => {
+                      routesStore.setChangeWayPoint(
+                        index,
+                        "lat",
+                        parseFloat(val)
+                      );
+                    });
                     routesStore.setChangeIndex(uuidv4());
                   }}
                 />
@@ -139,11 +156,13 @@ const AddRoute = observer(() => {
                   onChange={(event) => {
                     onChange(event);
                     routesStore.setChangeIndex(uuidv4());
-                    routesStore.setChangeWayPoint(
-                      index,
-                      "lng",
-                      parseFloat(event.target.value)
-                    );
+                    handleDebouncedInputChange(event, (val: any) => {
+                      routesStore.setChangeWayPoint(
+                        index,
+                        "lng",
+                        parseFloat(val)
+                      );
+                    });
                     routesStore.setChangeIndex(uuidv4());
                   }}
                 />
