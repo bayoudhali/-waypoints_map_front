@@ -1,5 +1,4 @@
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
-import { v4 as uuidv4 } from "uuid";
 import { KeyPoints } from "../types/routes.type";
 import {
   IRoutesPoints,

@@ -1,3 +1,16 @@
+.app {
+  display: flex;
+  width: 100%;
+}
+.mapContainer {
+  width: 75%;
+}
+
+.routeLeftContainer {
+  width: 25%;
+  background-color: #152534;
+}
+
 .leaflet-control-container {
   display: none;
 }
