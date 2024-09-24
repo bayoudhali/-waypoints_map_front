@@ -21,18 +21,7 @@ This is a frontend application for managing routes composed of waypoints, where 
 ## Project Structure
 The project is structured as follows:
 
-src/
-  ├── components/
-  │   └── map/           # Map components (e.g., index.jsx)
-  ├── Routes/            # Route components (e.g., addRoute.tsx, editRoute.tsx, listRoutes.tsx)
-  ├── context/           # React Context for global state management
-  ├── interfaces/        # TypeScript interfaces for type safety
-  ├── services/          # API and business logic services
-  ├── store/             # MobX store (e.g., routes.store.ts)
-  ├── styles/            # Custom styles (CSS or SASS)
-  ├── types/             # Additional TypeScript types
-  ├── utils/             # Helper functions (e.g., API calls)
-      └── functions/     # HTTP methods like GET, POST, PUT (e.g., httpMethods.ts)
+![alt text](image.png)
 
 ## Installation
 ### Prerequisites:
@@ -44,16 +33,19 @@ src/
    ```bash
    git clone https://github.com/bayoudhali/waypoints_map_front.git
    cd waypoints_map_front
+ ```bash
 
 2. Create .env file and copy the content of .env.example in it 
 
 3. Install dependencies using Yarn:
   ```bash
     yarn install
+ ```bash
 
 4. Start the development server:
   ```bash
     yarn start
+ ```bash
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -61,7 +53,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 5. Build the project for production:
   ```bash
     yarn build
-
+ ```bash
+ 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
