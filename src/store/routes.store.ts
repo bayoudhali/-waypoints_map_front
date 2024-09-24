@@ -11,6 +11,7 @@ class RoutesStore {
   @observable switchLayout: number = 0;
   @observable index: string = "-1";
   @observable routingControlRef: any = null;
+  @observable isDraggble: boolean = false;
 
   @observable routesPoints: IRoutesPoints[] = [
     {
@@ -106,6 +107,9 @@ class RoutesStore {
   }
   setChangeIndex(index: string) {
     this.index = index;
+  }
+  @action setIsDraggble(value: boolean) {
+    this.isDraggble = value;
   }
 
   // Remove a waypoint by index

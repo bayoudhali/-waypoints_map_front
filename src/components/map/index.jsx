@@ -59,6 +59,7 @@ const Map = observer(() => {
           );
           routesStore.setChangeWayPoint(index, "lat", newCoords.lat);
           routesStore.setChangeWayPoint(index, "lng", newCoords.lng);
+          routesStore.setIsDraggble(!routesStore.isDraggble);
         });
 
         return marker;
@@ -74,14 +75,6 @@ const Map = observer(() => {
   };
 
   const RoutingMachine = createControlComponent(createRoutingMachineLayer);
-
-  // Function to remove waypoints
-  // const removeWaypoints = () => {
-  //   const routingControl = routingControlRef.current;
-  //   if (routingControl) {
-  //     routingControl.setWaypoints([]); // Remove all waypoints
-  //   }
-  // };
 
   return (
     <MapContainer
