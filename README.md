@@ -1,46 +1,69 @@
-# Getting Started with Create React App
+# Waypoints Map Frontend Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Overview
+This is a frontend application for managing routes composed of waypoints, where each waypoint has a position (latitude and longitude) and an ID. Users can:
+- Add, edit, and remove routes.
+- Edit waypoint positions via text inputs or directly on the map using drag-and-drop.
+- Add or delete waypoints.
 
-## Available Scripts
+## Libraries and Technologies Used
+- **React**: Frontend framework.
+- **TypeScript**: Type safety and development support.
+- **MobX**: State management.
+- **Leaflet & React-Leaflet**: Mapping library.
+- **Leaflet Routing Machine**: Route management on maps.
+- **Axios**: HTTP client for making API requests.
+- **Material UI (MUI)**: UI component library.
+- **Commitizen**: For standardized Git commits.
+- **Yarn**: Package manager.
+- **Node.js (v20.10.0)**: Runtime environment.
 
-In the project directory, you can run:
+## Project Structure
+The project is structured as follows:
 
-### `npm start`
+src/
+  ├── components/
+  │   └── map/           # Map components (e.g., index.jsx)
+  ├── Routes/            # Route components (e.g., addRoute.tsx, editRoute.tsx, listRoutes.tsx)
+  ├── context/           # React Context for global state management
+  ├── interfaces/        # TypeScript interfaces for type safety
+  ├── services/          # API and business logic services
+  ├── store/             # MobX store (e.g., routes.store.ts)
+  ├── styles/            # Custom styles (CSS or SASS)
+  ├── types/             # Additional TypeScript types
+  ├── utils/             # Helper functions (e.g., API calls)
+      └── functions/     # HTTP methods like GET, POST, PUT (e.g., httpMethods.ts)
+
+## Installation
+### Prerequisites:
+- Node.js v20.10.0 or higher
+- Yarn (recommended)
+
+### Steps to Install and Run:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/bayoudhali/waypoints_map_front.git
+   cd waypoints_map_front
+
+2. Create .env file and copy the content of .env.example in it 
+
+3. Install dependencies using Yarn:
+  ```bash
+    yarn install
+
+4. Start the development server:
+  ```bash
+    yarn start
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
+5. Build the project for production:
+  ```bash
+    yarn build
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
